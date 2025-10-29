@@ -9,4 +9,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  resource :patients_profile, only: %i[show edit update] # agrego las rutas de los pacientes
 end
