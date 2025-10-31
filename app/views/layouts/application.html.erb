@@ -6,11 +6,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application.bootstrap", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="bg-body">
     <%=render "shared/flashes" %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
@@ -18,8 +18,11 @@
     <header>
       <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
     </header>
-    <main id="main-content">
+    <main id="main-content" class="container py-4">
+      <% if notice %><div class="alert alert-success"><%= notice %></div><% end %>
+      <% if alert %><div class="alert alert-danger"><%= alert %></div><% end %>
       <%= yield %>
     </main>
+
   </body>
 </html>
