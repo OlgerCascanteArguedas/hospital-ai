@@ -4,7 +4,7 @@ class PatientsProfile < ApplicationRecord
 
   validates :gender, :age
   validates :height, :weight presence: true
-  validates :allergies, :conditions, :medication allow_blank: true
+  validates :allergies, :conditions :medication, allow_blank: true
 
 
 end
