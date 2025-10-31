@@ -1,0 +1,20 @@
+<div class="text-center mb-4">
+  <h1 class="display-5 fw-bold">💬 MedAI Chat</h1>
+  <p class="lead">Tu asistente médico virtual (solo informativo, no reemplaza atención profesional)</p>
+</div>
+
+<div class="text-center mb-4">
+  <%= button_to "Crear nuevo chat", chats_path, method: :post, class: "btn btn-primary btn-lg" %>
+</div>
+
+<% if @chats.any? %>
+  <div class="list-group">
+    <% @chats.each do |chat| %>
+      <a href="<%= chat_path(chat) %>" class="list-group-item list-group-item-action">
+        <%= chat.title %> <small class="text-muted">(<%= chat.created_at.strftime("%d/%m/%Y %H:%M") %>)</small>
+      </a>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-muted text-center">No hay chats aún.</p>
+<% end %>
