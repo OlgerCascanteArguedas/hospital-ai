@@ -76,3 +76,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "ruby_llm", "~> 1.6.4"
+gem "jquery-rails"
+gem "sassc-rails"
+gem "dotenv-rails"
