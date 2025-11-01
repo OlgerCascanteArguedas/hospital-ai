@@ -1,2 +1,55 @@
 <h1>Citas</h1>
-<p>Aqui estan tus citas:</p>
+<p>Aquí están tus citas:</p>
+
+<% if @next_appointment.present? %>
+  <div class="card mt-3 mb-4">
+    <div class="card-body d-flex justify-content-between align-items-start">
+      <div>
+        <h5 class="card-title mb-2">Próxima cita</h5>
+        <p class="mb-1"><strong><%= @next_appointment.reason %></strong></p>
+        <p class="text-muted mb-0"><%= l(@next_appointment.scheduled_at, format: :long) %></p>
+      </div>
+
+      <div class="d-flex gap-2">
+        <%= link_to "Editar", edit_appointment_path(@next_appointment),
+                    class: "btn btn-outline-primary btn-sm" %>
+
+        <%= button_to "Eliminar",
+                      appointment_path(@next_appointment),
+                      method: :delete,
+                      form: { data: { turbo_confirm: "¿Eliminar esta cita?" } },
+                      class: "btn btn-outline-danger btn-sm" %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="alert alert-info mt-3">No tienes próximas citas.</div>
+<% end %>
+
+<h5 class="mt-4">Todas las citas</h5>
+<% if @appointments.any? %>
+  <ul class="list-group mt-2">
+    <% @appointments.each do |a| %>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong><%= a.reason %></strong><br>
+          <small class="text-muted"><%= l(a.scheduled_at, format: :long) %></small>
+        </div>
+
+        <div class="d-flex gap-2">
+          <%= link_to "Editar", edit_appointment_path(a),
+                      class: "btn btn-outline-primary btn-sm" %>
+
+          <%= button_to "Eliminar",
+                        appointment_path(a),
+                        method: :delete,
+                        form: { data: { turbo_confirm: "¿Eliminar esta cita?" } },
+                        class: "btn btn-outline-danger btn-sm" %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="text-muted mt-2">Todavía no registraste citas.</p>
+<% end %>
+
