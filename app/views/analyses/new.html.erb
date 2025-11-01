@@ -1,0 +1,10 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Subir análisis</h5>
+    <%= form_with model: @analysis, local: true do |f| %>
+      <div class="mb-3"><%= f.text_field :description, class: "form-control", placeholder: "Descripción del archivo" %></div>
+      <div class="mb-3"><%= f.file_field :file, class: "form-control" %></div>
+      <%= f.submit "Subir", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

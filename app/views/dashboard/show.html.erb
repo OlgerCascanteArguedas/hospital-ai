@@ -1,2 +1,16 @@
-<h1>Dashboard</h1>
-<p>Mis consultas:</p>
+<div class="card-body">
+  <h5 class="card-title">Próximas citas</h5>
+
+  <% if @appointments&.any? %>
+    <ul class="list-group list-group-flush">
+      <% @appointments.each do |a| %>
+        <li class="list-group-item d-flex justify-content-between">
+          <span><strong><%= a.reason %></strong></span>
+          <span class="badge text-bg-secondary"><%= l a.scheduled_at, format: :short %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-muted">Sin citas. <%= link_to "Solicitar una", new_appointment_path %></p>
+  <% end %>
+</div>

@@ -1,2 +1,28 @@
-<h1>Home#index</h1>
-<p>¡Funciona!</p>
+<div class="row align-items-center">
+  <div class="col-lg-6">
+    <h1 class="display-6 fw-bold mb-3" style="color: var(--primary)">Hospital IA</h1>
+    <p class="lead">Asistente inteligente para orientación previa a la cita, cuidados del procedimiento,
+      interpretación general de análisis y solicitud de turnos.</p>
+    <% unless user_signed_in? %>
+      <div class="d-flex gap-2 mt-3">
+        <%= link_to "Ingresar", new_user_session_path, class: "btn btn-primary" %>
+        <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-outline-primary" %>
+      </div>
+    <% else %>
+      <%= link_to "Ir al Dashboard", dashboard_path, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">¿Qué puedo hacer aquí?</h5>
+        <ul class="mb-0">
+          <li>Hacer preguntas sobre síntomas o preparación de tu cita.</li>
+          <li>Conocer cuidados posteriores a un procedimiento.</li>
+          <li>Subir análisis para recibir una orientación general.</li>
+          <li>Solicitar una cita en pocos pasos.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
