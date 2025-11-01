@@ -2,7 +2,10 @@ class PatientsProfilesController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_profile!
 
-  def show; end
+def show
+  @profile = current_user.patient_profile
+end
+
   def edit; end
 
   def update
