@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title mb-0"><%= @chat.title %></h5>
+  </div>
+  <turbo-frame id="messages">
+    <div class="list-group list-group-flush">
+      <% @messages.each do |m| %>
+        <div class="list-group-item">
+          <span class="badge <%= m.role == 'user' ? 'text-bg-primary' : 'text-bg-success' %>"><%= m.role %></span>
+          <div class="mt-2"><%= simple_format m.content %></div>
+        </div>
+      <% end %>
+    </div>
+  </turbo-frame>
+  <div class="card-footer">
+    <%= form_with url: chat_messages_path(@chat), data: { turbo_stream: true } do |f| %>
+      <div class="input-group">
+        <%= f.text_field :content, class: "form-control", placeholder: "Escribe tu mensaje..." %>
+        <button class="btn btn-primary">Enviar</button>
+      </div>
+    <% end %>
+  </div>
+</div>

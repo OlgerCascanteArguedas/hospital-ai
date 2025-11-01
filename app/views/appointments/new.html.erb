@@ -1,0 +1,10 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Solicitar una cita</h5>
+    <%= form_with model: @appointment, local: true do |f| %>
+      <div class="mb-3"><%= f.text_field :reason, class: "form-control", placeholder: "Motivo de la consulta" %></div>
+      <div class="mb-3"><%= f.datetime_field :scheduled_at, class: "form-control" %></div>
+      <%= f.submit "Enviar solicitud", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

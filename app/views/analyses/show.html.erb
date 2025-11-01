@@ -1,0 +1,8 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"><%= @analysis.description %></h5>
+    <p><%= link_to "Abrir archivo", url_for(@analysis.file), target: :_blank %></p>
+    <h6>Orientación de IA</h6>
+    <div class="alert alert-info"><%= simple_format @analysis.ai_result %></div>
+  </div>
+</div>
