@@ -13,6 +13,15 @@ class PatientsProfilesController < ApplicationController
     end
   end
 
+  def destroy
+  profile = current_user.patient_profile # ajusta si tu asociación se llama distinto
+  if profile&.destroy
+    redirect_to dashboard_path, notice: "Perfil médico eliminado correctamente."
+  else
+    redirect_to patients_profile_path, alert: "No se pudo eliminar el perfil."
+  end
+end
+
   private
 
   def ensure_profile!

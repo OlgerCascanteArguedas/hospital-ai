@@ -8,12 +8,12 @@ Rails.application.routes.draw do
 
   get "dashboard", to: "dashboard#show"
 
-  resource :patients_profile, only: %i[show edit update]
+  resource :patients_profile, only: %i[show edit update destroy]
   resources :chats, only: %i[index show create] do
     resources :messages, only: %i[index create]
   end
   resources :analyses, only: %i[index new create show]
-  resources :appointments, only: %i[index new create]
+resources :appointments, only: [:index, :new, :create, :edit, :update, :destroy]
 
   post "chatbot/ask", to: "chatbot#ask"
 end
