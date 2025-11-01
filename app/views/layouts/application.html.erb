@@ -16,12 +16,14 @@
     <p class="alert"><%= alert %></p>
     <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
     <header>
-      <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
+      <%= render "shared/navbar" %>
     </header>
     <main id="main-content" class="container py-4">
       <% if notice %><div class="alert alert-success"><%= notice %></div><% end %>
       <% if alert %><div class="alert alert-danger"><%= alert %></div><% end %>
       <%= yield %>
+      <%= render "shared/chat_fab" %>
+      <%= render "shared/chat_modal" %>
     </main>
 
   </body>

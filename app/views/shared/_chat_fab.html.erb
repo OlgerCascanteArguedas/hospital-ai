@@ -1,2 +1,7 @@
-<button class="btn btn-primary chat-fab" data-bs-toggle="modal" data-bs-target="#chatModal" title="Hospital IA">
-</button>
+<% if user_signed_in? %>
+  <button class="btn btn-primary chat-fab"
+          data-bs-toggle="modal" data-bs-target="#chatModal"
+          title="Hospital IA">
+    💬
+  </button>
+<% end %>

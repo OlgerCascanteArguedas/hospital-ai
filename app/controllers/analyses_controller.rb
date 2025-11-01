@@ -17,6 +17,7 @@ class AnalysesController < ApplicationController
         No brindes diagnóstico definitivo. Incluye banderas rojas y sugiere consultar con profesional.
         Datos del paciente (si aplica): #{current_user.patients_profile.attributes.except("id","user_id","created_at","updated_at")}
       TXT
+
       ai = Ai::Assistant.new
       @analysis.update(ai_result: ai.reply_to(prompt))
 
@@ -31,6 +32,7 @@ class AnalysesController < ApplicationController
   end
 
   private
+
   def analysis_params
     params.require(:analysis).permit(:description, :file)
   end
