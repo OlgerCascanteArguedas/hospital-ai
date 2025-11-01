@@ -1,0 +1,55 @@
+<div class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-bottom modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Asistente Hospital IA</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="chatlog" class="chat-log mb-3"></div>
+        <div class="input-group">
+          <input id="chatPrompt" class="form-control" placeholder="Haz tu pregunta..." />
+          <button id="chatSend" class="btn btn-primary">Enviar</button>
+        </div>
+        <small class="text-muted d-block mt-2">
+          Consejo: puedes preguntar sobre síntomas, preparación de procedimientos, cuidados, etc.
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  const log = document.getElementById("chatlog");
+  const promptEl = document.getElementById("chatPrompt");
+  const sendBtn = document.getElementById("chatSend");
+
+  function append(role, text) {
+    const div = document.createElement("div");
+    div.className = role === "user" ? "bubble me" : "bubble bot";
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  async function ask() {
+    const prompt = promptEl.value.trim();
+    if (!prompt) return;
+    append("user", prompt);
+    promptEl.value = "";
+    sendBtn.disabled = true;
+    append("bot", "Pensando...");
+
+    const resp = await fetch("<%= chatbot_ask_path %>", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await resp.json();
+    log.lastChild.textContent = data.answer || "Error al responder.";
+    sendBtn.disabled = false;
+  }
+
+  sendBtn?.addEventListener("click", ask);
+  promptEl?.addEventListener("keydown", (e) => { if (e.key === "Enter") ask(); });
+</script>
