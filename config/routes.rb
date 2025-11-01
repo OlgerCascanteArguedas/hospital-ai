@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'patients_profiles/show'
   get 'patients_profiles/edit'
   get 'patients_profiles/update'
-  root "home#index"
+  root "dashboard#show"
 
   devise_for :users
 
