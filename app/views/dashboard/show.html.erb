@@ -14,3 +14,11 @@
     <p class="text-muted">Sin citas. <%= link_to "Solicitar una", new_appointment_path %></p>
   <% end %>
 </div>
+<div class="row g-3">
+  <div class="col-md-6">
+  </div>
+
+  <div class="col-md-6">
+    <%= render "patients_profiles/summary_card", profile: @profile %>
+  </div>
+</div>
