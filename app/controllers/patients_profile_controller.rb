@@ -1,6 +1,6 @@
-class PatientsProfileController < ApplicationController
+class PatientsProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_profile
+  before_action :ensure_profile!
 
   def show; end
   def edit; end
@@ -14,8 +14,9 @@ class PatientsProfileController < ApplicationController
   end
 
   private
-  def set_profile
-    @profile = current_user.patients_profile
+
+  def ensure_profile!
+    @profile = current_user.patients_profile || current_user.create_patients_profile!
   end
 
   def profile_params

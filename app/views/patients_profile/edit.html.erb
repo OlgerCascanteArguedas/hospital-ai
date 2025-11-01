@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Mi perfil médico</h5>
+
+    <%= form_with model: @profile do |f| %>
+      <% if @profile && @profile.errors.any? %>
+        <div class="alert alert-danger">
+          <strong>Revisa estos campos:</strong>
+          <ul class="mb-0">
+            <% @profile.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="row g-3">
+        <div class="col-md-3"><%= f.number_field :age, class: "form-control", placeholder: "Edad" %></div>
+        <div class="col-md-3"><%= f.number_field :height, class: "form-control", placeholder: "Talla (cm)" %></div>
+        <div class="col-md-3"><%= f.number_field :weight, class: "form-control", placeholder: "Peso (kg)" %></div>
+        <div class="col-md-3">
+          <%= f.select :gender,
+              [["masculino","masculino"],["femenino","femenino"],["otro","otro"]],
+              { include_blank: "Selecciona" }, class: "form-select" %>
+        </div>
+
+        <div class="col-md-6"><%= f.text_area :allergies, class: "form-control", placeholder: "Alergias" %></div>
+        <div class="col-md-6"><%= f.text_area :conditions, class: "form-control", placeholder: "Condiciones" %></div>
+        <div class="col-md-6"><%= f.text_area :medication, class: "form-control", placeholder: "Medicaciones" %></div>
+        <div class="col-md-6"><%= f.text_area :medical_history, class: "form-control", placeholder: "Historia médica" %></div>
+      </div>
+
+      <div class="mt-3">
+        <%= f.submit "Guardar", class: "btn btn-primary" %>
+        <%= link_to "Cancelar", patients_profile_path, class: "btn btn-light" %>
+      </div>
+    <% end %>
+  </div>
+</div>

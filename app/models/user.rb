@@ -11,6 +11,6 @@ class User < ApplicationRecord
 
   private
   def ensure_profile!
-    create_patients_profile!
+    create_patients_profile! unless patients_profile
   end
 end
