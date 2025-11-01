@@ -18,17 +18,20 @@ module Ai
         end
       end
 
-      client = RubyLLM::Client.new(api_key: ENV["RUBYLLM_API_KEY"])
+      #client = RubyLLM::Client.new(api_key: ENV["RUBYLLM_API_KEY"])
 
-      response = client.chat(
-        model: ENV.fetch("RUBYLLM_MODEL", "gpt-4o-mini"),
-        messages: [{ role: "system", content: system_rules }]
-                    .concat(history)
-                    .concat([{ role: "user", content: prompt }]),
-        temperature: 0.2
-      )
+      #response = RubyLLM.chat(
+        #model: ENV.fetch("RUBYLLM_MODEL", "gpt-4o-mini"),
+        #messages: [{ role: "system", content: system_rules }]
+        #            .concat(history)
+        #            .concat([{ role: "user", content: prompt }]),
+        #temperature: 0.2
 
-      response.dig("choices", 0, "message", "content") || "Lo siento, no pude generar una respuesta."
+      #)
+      response = RubyLLM.chat.with_temperature(0.2).ask(prompt)
+
+      #response.dig("choices", 0, "message", "content") || "Lo siento, no pude generar una respuesta."
+      response.content
     rescue => e
       Rails.logger.error("[AI] #{e.class}: #{e.message}")
       "Ha ocurrido un problema procesando tu consulta. Intenta nuevamente."
