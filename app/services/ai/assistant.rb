@@ -4,6 +4,8 @@ module Ai
       @chat = chat
     end
 
+    
+
     def reply_to(prompt)
       system_rules = <<~SYS
         Eres "Hospital IA". Responde en español, tono empático y educativo.
@@ -29,7 +31,6 @@ module Ai
 
       #)
       response = RubyLLM.chat.with_temperature(0.2).ask(prompt)
-
       #response.dig("choices", 0, "message", "content") || "Lo siento, no pude generar una respuesta."
       response.content
     rescue => e

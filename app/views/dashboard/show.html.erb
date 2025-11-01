@@ -1,24 +1,36 @@
-<div class="card-body">
-  <h5 class="card-title">Próximas citas</h5>
-
-  <% if @appointments&.any? %>
-    <ul class="list-group list-group-flush">
-      <% @appointments.each do |a| %>
-        <li class="list-group-item d-flex justify-content-between">
-          <span><strong><%= a.reason %></strong></span>
-          <span class="badge text-bg-secondary"><%= l a.scheduled_at, format: :short %></span>
-        </li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p class="text-muted">Sin citas. <%= link_to "Solicitar una", new_appointment_path %></p>
-  <% end %>
-</div>
-<div class="row g-3">
-  <div class="col-md-6">
+<div class="d-flex">
+  <div class="card-body col-6">
+    <h3 class="card-title">Dashboard Principal</h3>
+    <h5 class="mt-4">Todas las citas</h5>
+    <% if @appointments.any? %>
+      <ul class="list-group mt-2">
+        <% @appointments.each do |a| %>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong><%= a.reason %></strong><br>
+              <small class="text-muted"><%= l(a.scheduled_at, format: :long) %></small>
+            </div>
+            <div class="d-flex gap-2">
+              <%= link_to "Editar", edit_appointment_path(a),
+                        class: "btn btn-outline-primary btn-sm" %>
+              <%= button_to "Eliminar",
+                          appointment_path(a),
+                          method: :delete,
+                          form: { data: { turbo_confirm: "¿Eliminar esta cita?" } },
+                          class: "btn btn-outline-danger btn-sm" %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted mt-2">Todavía no registraste citas.</p>
+    <% end %>
   </div>
-
-  <div class="col-md-6">
-    <%= render "patients_profiles/summary_card", profile: @profile %>
+  <div class="row g-3 col-6">
+    <div>
+    </div>
+    <div>
+      <%= render "patients_profiles/summary_card", profile: @profile %>
+    </div>
   </div>
 </div>
