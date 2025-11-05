@@ -1,0 +1,19 @@
+:root{
+  --primary: rgba(15,66,118,1);
+  --primary-light: rgba(35,105,180,1);
+  --gray-light: rgba(238,233,233,1);
+  --pastel: rgba(245,249,255,1);
+}
+
+.card .form-control:focus {
+  box-shadow: 0 0 0 .2rem rgba(35,105,180,.15);
+  border-color: var(--primary-light);
+}
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.btn-primary:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-light);
+}
