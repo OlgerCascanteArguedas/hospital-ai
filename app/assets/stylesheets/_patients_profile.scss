@@ -1,0 +1,40 @@
+.profile-card{
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.field-label{
+  display:block;
+  font-weight: 600;
+  margin-bottom: .35rem;
+  color: #334155;
+}
+
+.field-box{
+  background: #f1f7fb;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 10px;
+  padding: .65rem .75rem;
+  min-height: 44px;
+  display: flex; align-items: center;
+  color: #0f2e4a;
+}
+
+.field-area{
+  background: #f1f7fb;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 10px;
+  padding: .85rem .9rem;
+  min-height: 72px;
+  color: #0f2e4a;
+  white-space: pre-wrap;
+}
+
+.btn-primary{
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.btn-primary:hover{
+  background: var(--primary-light);
+  border-color: var(--primary-light);
+}

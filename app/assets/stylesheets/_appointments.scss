@@ -1,0 +1,22 @@
+.appt-card, .appt-side{
+  border-radius: 12px;
+  border: 1px solid var(--gray-light);
+  box-shadow: 0 8px 24px rgba(0,0,0,.04);
+  background: #fff;
+}
+
+.appt-select, .appt-input, .appt-area{
+  background: #f1fbff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 10px;
+}
+
+.form-control:focus, .form-select:focus{
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 .2rem rgba(35,105,180,.15);
+}
+
+.input-group-text{
+  background: #f1fbff;
+  border: 1px solid rgba(0,0,0,.08);
+}
