@@ -1,6 +1,15 @@
 class Appointment < ApplicationRecord
   belongs_to :user
-  validates :scheduled_at, :reason, presence: true
-  validates :status, inclusion: { in: %w[pending confirmed cancelled], allow_blank: true }
-  before_validation { self.status ||= 'pending' }
+
+  SPECIALTIES = [
+    "Medicina General", "Cardiología", "Dermatología", "Pediatría",
+    "Ginecología", "Traumatología", "Oftalmología", "Neurología",
+    "Psiquiatría", "Urología"
+  ].freeze
+
+  validates :specialty, inclusion: { in: SPECIALTIES }
+  validates :reason, presence: true
+  validates :scheduled_at, presence: true
+
+  scope :upcoming, -> { order(scheduled_at: :asc) }
 end
