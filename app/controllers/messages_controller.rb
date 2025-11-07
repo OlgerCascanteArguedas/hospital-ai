@@ -36,20 +36,21 @@ class MessagesController < ApplicationController
 
   def create
     # 1️⃣ Crear el mensaje del usuario
-    user_msg = @chat.messages.create!(role: "user", content: params.require(:message)[:content])
+    user_message = @chat.messages.create!(
+      role: "user",
+      content: params.require(:message)[:content]
+    )
 
-    # 2️⃣ Armar el historial de la conversación
-    conversation = @chat.messages.order(:created_at).last(20).map do |msg|
-      { role: msg.role, content: msg.content }
-    end
+    # 2️⃣ Armar historial completo (contexto)
+    conversation = build_conversation
 
-    # 3️⃣ Llamar a RubyLLM
+    # 3️⃣ Llamar al modelo RubyLLM
     client = RubyLLM::Client.new(provider: :openai, model: "gpt-4o-mini")
 
     ai_response = client.chat(messages: conversation)
+    ai_text = ai_response.is_a?(String) ? ai_response : ai_response.dig(:message, :content)
 
-    # 4️⃣ Guardar la respuesta de la IA
-    @chat.messages.create!(role: "assistant", content: ai_response)
+    @chat.messages.create!(role: "assistant", content: ai_text)
 
     @chat.touch
 
@@ -65,5 +66,19 @@ class MessagesController < ApplicationController
   def set_chat
     @chat = current_user.chats.find(params[:chat_id])
   end
-end
 
+  # ✅ Nuevo método para construir el historial
+  def build_conversation
+    system_prompt = {
+      role: "system",
+      content: "Eres un asistente útil que recuerda la información del usuario dentro del chat actual."
+    }
+
+    # Incluye TODOS los mensajes (o los últimos N si prefieres limitar)
+    messages = @chat.messages.order(:created_at).map do |msg|
+      { role: msg.role, content: msg.content }
+    end
+
+    [system_prompt] + messages
+  end
+end
