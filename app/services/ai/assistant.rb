@@ -1,11 +1,9 @@
+require "ruby_llm"
 module Ai
   class Assistant
     def initialize(chat = nil)
       @chat = chat
     end
-
-    
-
     def reply_to(prompt)
       system_rules = <<~SYS
         Eres "Hospital IA". Responde en español, tono empático y educativo.
@@ -13,25 +11,15 @@ module Ai
         y sugiere acudir a una consulta médica si es necesario.
       SYS
 
-      history = []
+      history = RubyLLM.chat
       if @chat
-        @chat.messages.order(:created_at).last(8).each do |m|
-          history << { role: m.role, content: m.content.to_s }
+        @chat.messages.order(:created_at).last(20).each do |message|
+          history.add_message(role: message.role, content: message.content)
         end
       end
-
-      #client = RubyLLM::Client.new(api_key: ENV["RUBYLLM_API_KEY"])
-
-      #response = RubyLLM.chat(
-        #model: ENV.fetch("RUBYLLM_MODEL", "gpt-4o-mini"),
-        #messages: [{ role: "system", content: system_rules }]
-        #            .concat(history)
-        #            .concat([{ role: "user", content: prompt }]),
-        #temperature: 0.2
-
-      #)
-      response = RubyLLM.chat.with_temperature(0.2).ask(prompt)
-      #response.dig("choices", 0, "message", "content") || "Lo siento, no pude generar una respuesta."
+      conversation = [{ role: "system", content: system_rules }]
+      conversation << { role: "user", content: prompt }
+      response = history.with_temperature(0.2).ask(prompt)
       response.content
     rescue => e
       Rails.logger.error("[AI] #{e.class}: #{e.message}")
