@@ -1,6 +1,16 @@
 <h1>Editar cita</h1>
 
-<%= form_with model: @appointment, url: appointment_path(@appointment), method: :patch, local: true do |f| %>
+<%= form_with model: @appointment,
+              url: appointment_path(@appointment),
+              method: :patch,
+              local: true,
+              data: {
+                controller: "office-hours",
+                office_hours_start_value: 7,
+                office_hours_end_value: 17,
+                action: "submit->office-hours#submit"
+              } do |f| %>
+
   <div class="mb-3">
     <%= f.label :reason, "Motivo", class: "form-label" %>
     <%= f.text_field :reason, class: "form-control" %>
@@ -8,11 +18,14 @@
 
   <div class="mb-3">
     <%= f.label :scheduled_at, "Fecha y hora", class: "form-label" %>
-    <%= f.datetime_local_field :scheduled_at, class: "form-control" %>
+    <%= f.datetime_local_field :scheduled_at,
+          class: "form-control",
+          step: 900,  # opcional: intervalos de 15 min
+          data: { office_hours_target: "input", action: "change->office-hours#validate" } %>
   </div>
 
   <div class="d-flex gap-2">
     <%= f.submit "Guardar cambios", class: "btn btn-primary" %>
-    <%= link_to "Cancelar", appointments_path, class: "btn btn-secondary"  %>
+    <%= link_to "Cancelar", appointments_path, class: "btn btn-secondary" %>
   </div>
 <% end %>

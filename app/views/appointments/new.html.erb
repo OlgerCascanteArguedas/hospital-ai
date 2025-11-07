@@ -1,9 +1,30 @@
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">Solicitar una cita</h5>
-    <%= form_with model: @appointment, local: true do |f| %>
-      <div class="mb-3"><%= f.text_field :reason, class: "form-control", placeholder: "Motivo de la consulta" %></div>
-      <div class="mb-3"><%= f.datetime_field :scheduled_at, class: "form-control" %></div>
+
+    <%= form_with model: @appointment,
+                  local: true,
+                  data: {
+                    controller: "office-hours",
+                    office_hours_start_value: 7,
+                    office_hours_end_value: 17,
+                    action: "submit->office-hours#submit"
+                  } do |f| %>
+
+      <div class="mb-3">
+        <%= f.text_field :reason, class: "form-control", placeholder: "Motivo de la consulta" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.datetime_field :scheduled_at,
+              class: "form-control",
+              step: 900,  # opcional: intervalos de 15 min
+              data: {
+                office_hours_target: "input",
+                action: "change->office-hours#validate"
+              } %>
+      </div>
+
       <%= f.submit "Enviar solicitud", class: "btn btn-primary" %>
     <% end %>
   </div>
