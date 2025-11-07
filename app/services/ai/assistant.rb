@@ -11,25 +11,16 @@ module Ai
         y sugiere acudir a una consulta médica si es necesario.
       SYS
 
-      history = []
+      history = RubyLLM.chat
       if @chat
-        @chat.messages.order(:created_at).last(20).each do |m|
-          history << { role: m.role, content: m.content.to_s }
+        @chat.messages.order(:created_at).last(20).each do |message|
+          history.add_message(role: message.role, content: message.content)
         end
       end
       conversation = [{ role: "system", content: system_rules }]
-      conversation += history
       conversation << { role: "user", content: prompt }
-      puts conversation
-
-      response = RubyLLM.chat
-                        .with_temperature(0.2)
-                        .with_messages(conversation)
-                        .ask("Responde al último mensaje del usuario en contexto.")
-
-      #response = RubyLLM.chat.with_temperature(0.2).ask(prompt)
+      response = history.with_temperature(0.2).ask(prompt)
       response.content
-      puts response
     rescue => e
       Rails.logger.error("[AI] #{e.class}: #{e.message}")
       "Ha ocurrido un problema procesando tu consulta. Intenta nuevamente."
