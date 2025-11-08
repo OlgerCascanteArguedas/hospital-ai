@@ -1,45 +1,76 @@
-<div class="container py-5">
-  <!-- Descripción + botón -->
-  <div class="card border-0 shadow-sm mx-auto mb-4" style="max-width: 880px;">
-    <div class="card-body p-4 p-md-5 text-center">
-      <h1 class="h3 mb-3" style="color:var(--primary)">¿Qué es Hospital IA?</h1>
-      <p class="lead mb-3">
-        <strong>Hospital IA</strong> es un software web para pacientes que integra
-        autenticación segura, un panel de salud personal y un asistente de inteligencia
-        artificial para orientación previa y posterior a tu cita. No sustituye la consulta
-        médica, pero te ayuda a entender indicaciones y llegar mejor preparado.
-      </p>
-      <div class="row g-3 text-start mb-3">
-        <div class="col-md-6">
-          <ul class="list-unstyled mb-0">
-            <li class="mb-2">• Preguntas sobre <em>síntomas</em> y preparación.</li>
-            <li class="mb-2">• <em>Cuidados</em> pre y post-procedimiento.</li>
-            <li class="mb-2">• Subida de <em>análisis</em> para orientación general.</li>
-          </ul>
-        </div>
-        <div class="col-md-6">
-          <ul class="list-unstyled mb-0">
-            <li class="mb-2">• Solicitud y seguimiento de <em>citas</em>.</li>
-            <li class="mb-2">• Perfil médico editable.</li>
-            <li class="mb-2">• Chatbot con historial.</li>
-          </ul>
-        </div>
-      </div>
-      <small class="text-muted d-block mb-4">
-        ⚠️ La información del asistente es orientativa y no sustituye una consulta médica presencial.
-      </small>
+<section class="auth-hero">
+  <div class="container text-center">
+    <div class="auth-hero-icon">💙</div>
+    <h1 class="auth-hero-title">Hospital IA</h1>
+    <p class="auth-hero-subtitle">
+      Tu asistente médico virtual disponible 24/7 para consultas,<br class="d-none d-md-inline">
+      recomendaciones y cuidados
+    </p>
 
-      <!-- Botón que abre el modal -->
-      <button class="btn btn-primary btn-lg px-4"
-              data-bs-toggle="modal"
-              data-bs-target="#loginModal">
-        Ingresar
+    <div class="d-flex gap-2 justify-content-center mt-3">
+      <button class="btn btn-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#loginModal">
+        Comenzar ahora
       </button>
+      <%= link_to "Crear cuenta", new_registration_path(resource_name), class: "btn btn-outline-light btn-lg px-4" %>
     </div>
   </div>
-</div>
+</section>
 
-<!-- Modal con el formulario de login -->
+<section class="features-section">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-4">¿Qué puedes hacer con Hospital IA?</h2>
+
+    <div class="row g-4 row-cols-1 row-cols-md-4">
+      <div class="col">
+        <div class="feature-tile">
+          <div class="feature-icon">💬</div>
+          <h3 class="feature-title">Consultas sobre Síntomas</h3>
+          <p class="feature-desc">Pregunta sobre tus síntomas y recibe orientación médica general</p>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="feature-tile">
+          <div class="feature-icon">🛡️</div>
+          <h3 class="feature-title">Recomendaciones Previas</h3>
+          <p class="feature-desc">Obtén consejos antes de tu cita médica</p>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="feature-tile">
+          <div class="feature-icon">❤️</div>
+          <h3 class="feature-title">Cuidados Post-Procedimiento</h3>
+          <p class="feature-desc">Aprende sobre los cuidados necesarios después de procedimientos</p>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="feature-tile">
+          <div class="feature-icon">⏱️</div>
+          <h3 class="feature-title">Interpretación de Análisis</h3>
+          <p class="feature-desc">Ayuda para entender tus resultados médicos</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container text-center">
+    <h3 class="fw-bold mb-2">Comienza tu consulta hoy</h3>
+    <p class="text-muted mb-3">Únete a miles de pacientes que confían en Hospital IA para sus consultas médicas</p>
+    <%= link_to "Crear cuenta gratis", new_registration_path(resource_name), class: "btn btn-primary px-4" %>
+  </div>
+</section>
+
+<footer class="auth-footer">
+  <div class="container text-center small">
+    <div class="mb-1">💙 Hospital IA</div>
+    <div class="text-muted">Este asistente proporciona información general. Siempre consulta con un profesional médico.</div>
+  </div>
+</footer>
+
 <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true"
      data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
