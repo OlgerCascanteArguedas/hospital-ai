@@ -15,17 +15,25 @@ class Appointment < ApplicationRecord
   scope :upcoming, -> { order(scheduled_at: :asc) }
   before_validation { self.status ||= 'pending' }
 
-  validate :within_office_hours
+validate :within_office_hours
 
-  private
+private
 
-  def within_office_hours
-    return if scheduled_at.blank?
+def within_office_hours
+  return if scheduled_at.blank?
 
-    local_time = scheduled_at.in_time_zone(Time.zone)
-    hour = local_time.hour
-    unless hour >= 7 && hour < 17
-      errors.add(:scheduled_at, "debe ser entre 7:00 y 17:00")
-    end
+  local_time = scheduled_at.in_time_zone(Time.zone)
+  hour = local_time.hour
+  min  = local_time.min
+
+  # --- Horario permitido ---
+  unless (hour > 6 && hour < 17) || (hour == 17 && min == 0)
+    errors.add(:scheduled_at, "debe ser entre 7:00 y 17:00")
   end
+
+  # --- Solo cada 15 minutos ---
+  unless [0, 15, 30, 45].include?(min)
+    errors.add(:scheduled_at, "solo permite intervalos de 15 minutos")
+  end
+end
 end

@@ -1,12 +1,23 @@
-<% if notice %>
-  <div class="alert alert-info alert-dismissible fade show m-1" role="alert">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    <%= notice %>
-  </div>
-<% end %>
-<% if alert %>
-  <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    <%= alert %>
+<% flash_msg =
+      flash[:alert].presence ||
+      flash[:error].presence ||
+      flash[:warning].presence ||
+      flash[:notice].presence ||
+      flash[:success].presence %>
+
+<% if flash_msg %>
+  <div id="flash"
+        class="alert alert-dismissible fade show m-2
+              <%= flash[:alert] || flash[:error] || flash[:warning] ? 'alert-danger' : 'alert-success' %>"
+        role="alert"
+        data-controller="flash"
+        data-flash-timeout-value="2000">
+
+    <%= flash_msg %>
+
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"></button>
   </div>
 <% end %>

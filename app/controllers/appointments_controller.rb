@@ -15,8 +15,8 @@ class AppointmentsController < ApplicationController
     date = params[:appointment].delete(:date)
     time = params[:appointment].delete(:time)
     scheduled_at = if date.present? && time.present?
-                     Time.zone.parse("#{date} #{time}")
-                   end
+                      Time.zone.parse("#{date} #{time}")
+                    end
 
     @appointment = current_user.appointments.new(appointment_params.merge(scheduled_at: scheduled_at))
 
