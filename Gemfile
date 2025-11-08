@@ -50,8 +50,14 @@ gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "devise"
-gem "ruby_llm", "~> 1.6.4"
+gem "ruby_llm", "~> 1.7"
 gem 'image_processing', '~> 1.2'
+gem "cloudinary"
+gem 'kramdown'
+gem "rouge"
+gem "kramdown-parser-gfm"
+
+
 
 
 group :development, :test do

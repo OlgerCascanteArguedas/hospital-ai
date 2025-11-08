@@ -15,9 +15,11 @@
   <div class="card-footer">
     <%= form_with url: chat_messages_path(@chat), data: { turbo_stream: true } do |f| %>
       <div class="input-group">
-        <%= f.text_field :content, class: "form-control", placeholder: "Escribe tu mensaje..." %>
+        <%= f.text_field :content, class: "form-control", placeholder: "Probandooo" %>
+        <%= f.file_field :file %>
         <button class="btn btn-primary">Enviar</button>
       </div>
     <% end %>
   </div>
 </div>
+
