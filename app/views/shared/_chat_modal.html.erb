@@ -7,10 +7,13 @@
       </div>
       <div class="modal-body">
         <div id="chatlog" class="chat-log mb-3"></div>
-        <div class="input-group">
+
+        <div class="input-group mb-2">
           <input id="chatPrompt" class="form-control" placeholder="Haz tu pregunta..." />
+          <input id="chatFile" type="file" class="form-control" style="max-width: 250px;" />
           <button id="chatSend" class="btn btn-primary">Enviar</button>
         </div>
+
         <small class="text-muted d-block mt-2">
           Consejo: puedes preguntar sobre síntomas, preparación de procedimientos, cuidados, etc.
         </small>
@@ -22,6 +25,7 @@
 <script type="module">
   const log = document.getElementById("chatlog");
   const promptEl = document.getElementById("chatPrompt");
+  const fileEl = document.getElementById("chatFile");
   const sendBtn = document.getElementById("chatSend");
 
   function append(role, text) {
@@ -34,22 +38,37 @@
 
   async function ask() {
     const prompt = promptEl.value.trim();
-    if (!prompt) return;
-    append("user", prompt);
+    const file = fileEl.files[0];
+    if (!prompt && !file) return;
+
+    append("user", prompt || "[Archivo adjunto]");
     promptEl.value = "";
+    fileEl.value = "";
     sendBtn.disabled = true;
     append("bot", "Pensando...");
 
-    const resp = await fetch("<%= chatbot_ask_path %>", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content },
-      body: JSON.stringify({ prompt })
-    });
-    const data = await resp.json();
-    log.lastChild.textContent = data.answer || "Error al responder.";
-    sendBtn.disabled = false;
+    const formData = new FormData();
+    formData.append("prompt", prompt);
+    if (file) formData.append("file", file);
+
+    try {
+      const resp = await fetch("<%= chatbot_ask_path %>", {
+        method: "POST",
+        headers: { "X-CSRF-Token": document.querySelector('meta[name=\"csrf-token\"]').content },
+        body: formData
+      });
+
+      const data = await resp.json();
+      log.lastChild.textContent = data.answer || "Error al responder.";
+    } catch (error) {
+      log.lastChild.textContent = "Error al procesar la solicitud.";
+    } finally {
+      sendBtn.disabled = false;
+    }
   }
 
   sendBtn?.addEventListener("click", ask);
-  promptEl?.addEventListener("keydown", (e) => { if (e.key === "Enter") ask(); });
+  promptEl?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) ask();
+  });
 </script>

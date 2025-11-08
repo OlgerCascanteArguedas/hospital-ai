@@ -4,22 +4,25 @@ module Ai
     def initialize(chat = nil)
       @chat = chat
     end
-    def reply_to(prompt)
+    def reply_to(prompt,file = nil)
       system_rules = <<~SYS
         Eres "Hospital IA". Responde en español, tono empático y educativo.
         No des diagnósticos definitivos ni prescripciones. Indica banderas rojas cuando sea pertinente
         y sugiere acudir a una consulta médica si es necesario.
       SYS
-
-      history = RubyLLM.chat
+      chat = RubyLLM.chat(model: "gemini-2.0-flash").with_temperature(0.2)
+      #history = RubyLLM.chat
       if @chat
         @chat.messages.order(:created_at).last(20).each do |message|
-          history.add_message(role: message.role, content: message.content)
+          chat.add_message(role: message.role, content: message.content)
         end
       end
-      conversation = [{ role: "system", content: system_rules }]
-      conversation << { role: "user", content: prompt }
-      response = history.with_temperature(0.2).ask(prompt)
+      response =
+      if file.present?
+        chat.ask(prompt,with: file.path)
+      else
+        chat.ask(prompt)
+      end
       response.content
     rescue => e
       Rails.logger.error("[AI] #{e.class}: #{e.message}")
