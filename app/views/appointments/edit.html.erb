@@ -92,15 +92,53 @@
 </div>
 
 <script>
-  document.addEventListener("turbo:load", () => {
-    const form = document.querySelector("form");
-    if (!form) return;
+document.addEventListener("turbo:load", () => {
+  const form = document.querySelector("form");
+  if (!form) return;
 
-    form.addEventListener("submit", () => {
-      const d = document.querySelector("#appointment_date");
-      const t = document.querySelector("#appointment_time");
-      document.querySelector("#hidden_date").value = d ? d.value : "";
-      document.querySelector("#hidden_time").value = t ? t.value : "";
-    });
+  const dateInput = document.querySelector("#appointment_date");
+  const timeInput = document.querySelector("#appointment_time");
+
+  // --- Validación completa ---
+  function isValidHour(value) {
+    if (!value) return false;
+
+    const [h, m] = value.split(":").map(Number);
+
+    // Rango válido 7:00 - 17:00
+    if (h < 7) return false;
+    if (h > 17) return false;
+    if (h === 17 && m > 0) return false;
+
+    // Intervalos de 15 min
+    if (![0, 15, 30, 45].includes(m)) return false;
+
+    return true;
+  }
+
+  // --- Cuando el usuario cambia la hora ---
+  timeInput.addEventListener("change", () => {
+    if (!isValidHour(timeInput.value)) {
+      alert("Solo se permiten citas entre 7:00 y 17:00, en intervalos de 15 minutos.");
+      timeInput.value = "";
+    }
   });
+
+  // --- Mantener tus hidden fields (NO se modifican) ---
+  form.addEventListener("submit", () => {
+    const d = dateInput;
+    const t = timeInput;
+
+    document.querySelector("#hidden_date").value = d ? d.value : "";
+    document.querySelector("#hidden_time").value = t ? t.value : "";
+  });
+
+  // --- Bloquear envío si la hora es inválida ---
+  form.addEventListener("submit", (e) => {
+    if (!isValidHour(timeInput.value)) {
+      e.preventDefault();
+      alert("La hora seleccionada no es válida. Solo cada 15 minutos dentro de 7:00–17:00.");
+    }
+  });
+});
 </script>

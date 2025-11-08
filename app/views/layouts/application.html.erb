@@ -10,21 +10,17 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-body">
-    <%=render "shared/flashes" %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
-    <header>
-      <%= render "shared/navbar" %>
-    </header>
-    <main id="main-content" class="container py-4">
-      <% if notice %><div class="alert alert-success"><%= notice %></div><% end %>
-      <% if alert %><div class="alert alert-danger"><%= alert %></div><% end %>
-      <%= yield %>
-      <%= render "shared/chat_fab" %>
-      <%= render "shared/chat_modal" %>
-    </main>
+<body class="bg-body">
+  <%= render "shared/flashes" %>
+  <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
+  <header>
+    <%= render "shared/navbar" %>
+  </header>
+  <main id="main-content" class="container py-4">
+    <%= yield %>
+    <%= render "shared/chat_fab" %>
+    <%= render "shared/chat_modal" %>
+  </main>
+</body>
 
-  </body>
 </html>
