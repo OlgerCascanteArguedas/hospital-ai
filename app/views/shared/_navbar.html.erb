@@ -4,6 +4,7 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbarsExample" class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <% if user_signed_in? %>
@@ -13,15 +14,26 @@
           <li class="nav-item"><%= link_to "Mis citas", appointments_path, class: "nav-link" %></li>
         <% end %>
       </ul>
-      <ul class="navbar-nav ms-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item"><span class="navbar-text me-2"><%= current_user.email %></span></li>
-          <li class="nav-item"><%= link_to "Salir", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-light btn-sm" %></li>
-        <% else %>
-          <li class="nav-item me-2"><%= link_to "Ingresar", new_user_session_path, class: "btn btn-outline-light btn-sm" %></li>
-          <li class="nav-item"><%= link_to "Registrarme", new_user_registration_path, class: "btn btn-warning btn-sm" %></li>
-        <% end %>
-      </ul>
+
+      <% unless content_for?(:hide_auth_buttons) %>
+        <ul class="navbar-nav ms-auto">
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <span class="navbar-text me-2"><%= current_user.email %></span>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Salir", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-light btn-sm" %>
+            </li>
+          <% else %>
+            <li class="nav-item me-2">
+              <%= link_to "Ingresar", new_user_session_path, class: "btn btn-outline-light btn-sm" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Registrarme", new_user_registration_path, class: "btn btn-warning btn-sm" %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     </div>
   </div>
 </nav>
